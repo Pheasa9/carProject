@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - changeSet:
+      id: 005-insert-brands-fromCSV.yaml
+      author: unpheasa.biu@gmail.com
+      comment: Insert last 3 phone brands from CSV
+      changes:
+        - loadData:
+            file: db/data/005-insert-brand.csv
+            separator: ","
+            tableName: brands
+            columns:
+              - column:
+                  name: id
+                  type: NUMERIC
+              - column:
+                  name: name
+                  type: VARCHAR(255)

@@ -1,0 +1,10 @@
+package com.sa.leanning.CarProject.DTO;
+
+import lombok.Data;
+
+@Data
+public class ColorDto {
+	
+    private String name;
+    
+}

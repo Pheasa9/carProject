@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - changeSet:
+      id: 003-insert-brands
+      author: unpheasa.biu@gmail.com
+      changes:
+        - insert:
+            tableName: brands
+            columns:
+              - column: { name: name, value: "Samsung" }
+        - insert:
+            tableName: brands
+            columns:
+              - column: { name: name, value: "Apple" }
+        - insert:
+            tableName: brands
+            columns:
+              - column: { name: name, value: "Xiaomi" }

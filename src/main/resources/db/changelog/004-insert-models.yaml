@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - changeSet:
+      id: 004-insert-models
+      author: unpheasa.biu@gmail.com
+      changes:
+        - insert:
+            tableName: models
+            columns:
+              - column:
+                  name: name
+                  value: "Galaxy S23"
+              - column:
+                  name: brand_id
+                  value: "2"
+
+        - insert:
+            tableName: models
+            columns:
+              - column:
+                  name: name
+                  value: "iPhone 15"
+              - column:
+                  name: brand_id
+                  value: "2"

@@ -1,0 +1,28 @@
+databaseChangeLog:
+  - changeSet:
+      id: 002-create-model-table
+      author: unpheasa.biu@gmail.com
+      changes:
+        - createTable:
+            tableName: models
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_models
+
+              - column:
+                  name: name
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: brand_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_model_brand
+                    references: brands(brand_id)
