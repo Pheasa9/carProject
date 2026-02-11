@@ -30,6 +30,7 @@ public interface ProductService {
      List<ProductByNameDto> getProductsByBrandName(String brandName);
      List<ProductByNameDto> getProductsWithFilter(ProductFilter filter);
     	 
-     
+      void delete(Long id);
+      
      
 }

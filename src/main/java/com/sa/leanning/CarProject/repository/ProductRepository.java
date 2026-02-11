@@ -17,4 +17,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> , JpaSpe
 	 List<Product> findByModelBrandId(Long brandId);
 	 List<Product> findByModel_Brand_NameIgnoreCase(String brandName);
 	
+
+	
 }

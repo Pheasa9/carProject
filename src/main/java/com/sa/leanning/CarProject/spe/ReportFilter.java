@@ -8,4 +8,5 @@ import lombok.Data;
 public class ReportFilter {
     LocalDate startDate;
     LocalDate endDate;
+    private Boolean status; 
 }

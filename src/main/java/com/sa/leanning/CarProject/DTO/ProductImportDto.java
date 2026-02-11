@@ -11,7 +11,6 @@ import lombok.Data;
 public class ProductImportDto {
      
 	private Long productId;
-	private LocalDateTime importDate;
 	private Integer importUnit;
 	private BigDecimal pricePerUnit;
 	

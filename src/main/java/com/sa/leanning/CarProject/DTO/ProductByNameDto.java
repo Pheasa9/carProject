@@ -14,11 +14,5 @@ public class ProductByNameDto {
 	private String imagePath;	
 	private int availableUnit ;
 	
-	 
-	  
-	  
-	  
-	
-	  
 	
 }

@@ -25,8 +25,10 @@ import com.sa.leanning.CarProject.Entities.Product;
 import com.sa.leanning.CarProject.Entities.ProductImportHistory;
 import com.sa.leanning.CarProject.Mapper.ProductMapper;
 import com.sa.leanning.CarProject.Util.ExcelUtils;
+import com.sa.leanning.CarProject.repository.ProductDetailsRepository;
 import com.sa.leanning.CarProject.repository.ProductImportHistoryRepository;
 import com.sa.leanning.CarProject.repository.ProductRepository;
+import com.sa.leanning.CarProject.service.ProductDetailsService;
 import com.sa.leanning.CarProject.service.ProductService;
 import com.sa.leanning.CarProject.spe.ProductFilter;
 import com.sa.leanning.CarProject.spe.ProductSpecification;
@@ -41,7 +43,7 @@ public class ProductServiceImp implements ProductService {
     private final ProductRepository productRepository;
     private final ProductImportHistoryRepository productImportHistoryRepository;
     private final ProductMapper productMapper;
-
+    private final ProductDetailsRepository detailsRepository;
     // ---------------- CREATE -------------------
 
     @Transactional
@@ -102,7 +104,7 @@ public class ProductServiceImp implements ProductService {
        
         ProductImportHistory history =
                 productMapper.toProductImportHistory(productImportDto, product);
-
+        history.setImportDate(LocalDateTime.now());
         productImportHistoryRepository.save(history);
     }
 
@@ -285,5 +287,20 @@ public class ProductServiceImp implements ProductService {
 	        return dto;
 	    }).toList();
 	}
+
+	@Override
+	@Transactional
+	public void delete(Long id) {
+	    Product product = getById(id);
+
+	    // delete ProductDetails if exists
+	    if (detailsRepository.existsByProduct_Id(id)) {
+	        detailsRepository.deleteByProduct_Id(id);
+	    }
+
+	    productRepository.delete(product);
+	}
+
+	
 
 }

@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class ProductDto {
      private Long modelId;
-     private Long ColorId;
+     private Long colorId;
 }
