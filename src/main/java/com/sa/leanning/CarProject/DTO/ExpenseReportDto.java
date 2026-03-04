@@ -10,5 +10,8 @@ public class ExpenseReportDto {
   private String productName;
   private Integer unit;
   private BigDecimal totalAmount;
+  
+  
+  
 	
 }

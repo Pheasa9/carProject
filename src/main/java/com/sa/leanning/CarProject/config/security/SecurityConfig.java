@@ -62,12 +62,14 @@ public class SecurityConfig {
 
             // Endpoint security
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/login").permitAll()
-                .requestMatchers(HttpMethod.GET, "/brands").hasAuthority("brand:read")
-                .requestMatchers(HttpMethod.POST, "/brands").hasAuthority("brand:write")
-               
-                .anyRequest().authenticated()
-            );
+            	    .requestMatchers("/login").permitAll()
+            	    .requestMatchers("/api/email/**").permitAll()
+            	    .requestMatchers("/notifications/**").permitAll()
+            	    .requestMatchers("/uploads/**").permitAll()
+            	    .requestMatchers(HttpMethod.GET, "/brands").hasAuthority("brand:read")
+            	    .requestMatchers(HttpMethod.POST, "/brands").hasAuthority("brand:write")
+            	    .anyRequest().authenticated()
+            	);
 
         return http.build();
     }
@@ -76,11 +78,10 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);
-        config.addAllowedOrigin("http://localhost:4200"); // Angular dev server
+        config.addAllowedOriginPattern("http://localhost:4200");  // ← changed
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
-        config.addExposedHeader("Authorization"); // JWT header exposed
+        config.addExposedHeader("Authorization");
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);

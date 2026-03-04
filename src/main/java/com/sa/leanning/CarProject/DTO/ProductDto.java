@@ -6,4 +6,5 @@ import lombok.Data;
 public class ProductDto {
      private Long modelId;
      private Long colorId;
+     private String imagePath;
 }
