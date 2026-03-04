@@ -27,10 +27,8 @@ public class SaleColtroller {
      private final ProductMapper productMapper;
      private final SaleService saleService;
      @PostMapping
-     public ResponseEntity<?> createSale(@RequestBody SaleDto saleDto) {       
-         saleService.sell(saleDto); 
-         return ResponseEntity.ok().build();
-
+     public ResponseEntity<?> createSale(@RequestBody SaleDto saleDto) {
+         return ResponseEntity.ok(saleService.sell(saleDto));
      }
      @GetMapping("/{id}")
      public ResponseEntity<?> getSale(@PathVariable("id") Long saleId){

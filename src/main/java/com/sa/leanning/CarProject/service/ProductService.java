@@ -24,7 +24,8 @@ public interface ProductService {
      Map<Integer, String> uploadProducts(MultipartFile file);
      Product getByModelAndColor(Long modelId , Long colorId);
      List<Product> getProducts();
-     
+     String saveProductImage(MultipartFile file);
+
      
      List<ProductByNameDto> getProductByBrandId(Long brandId);
      List<ProductByNameDto> getProductsByBrandName(String brandName);

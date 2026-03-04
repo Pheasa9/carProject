@@ -1,28 +1,25 @@
 package com.sa.leanning.CarProject.config;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-//@Configuration
+@Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    // 1. Web MVC CORS
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("http://localhost:4200")
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                .allowedHeaders("Authorization", "Content-Type") 
-                .allowCredentials(true);
-    }
+    
 
-    // 2. Spring Security CORS
+    // 2) Serve uploaded files from project-root/uploads/**
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        // When Angular asks for /uploads/**, look in the local C: folder
+
+        Path uploadDir = Paths.get("uploads").toAbsolutePath();
+
         registry.addResourceHandler("/uploads/**")
-        .addResourceLocations("file:///D:/Spring-Boot/image-phoneShop/");
+                .addResourceLocations(uploadDir.toUri().toString());
     }
-   
 }

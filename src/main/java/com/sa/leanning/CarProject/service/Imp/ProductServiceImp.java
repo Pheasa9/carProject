@@ -1,11 +1,16 @@
 package com.sa.leanning.CarProject.service.Imp;
 
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -16,6 +21,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.sa.leanning.CarProject.ApiException.ApiException;
@@ -28,7 +34,6 @@ import com.sa.leanning.CarProject.Util.ExcelUtils;
 import com.sa.leanning.CarProject.repository.ProductDetailsRepository;
 import com.sa.leanning.CarProject.repository.ProductImportHistoryRepository;
 import com.sa.leanning.CarProject.repository.ProductRepository;
-import com.sa.leanning.CarProject.service.ProductDetailsService;
 import com.sa.leanning.CarProject.service.ProductService;
 import com.sa.leanning.CarProject.spe.ProductFilter;
 import com.sa.leanning.CarProject.spe.ProductSpecification;
@@ -134,7 +139,41 @@ public class ProductServiceImp implements ProductService {
 	}
 
 	
-	
+	public String saveProductImage(MultipartFile file) {
+	    try {
+	        Path uploadDir = Paths.get("uploads", "products"); // ✅ uploads/products
+	        Files.createDirectories(uploadDir);
+
+	        String original = StringUtils.cleanPath(file.getOriginalFilename());
+	        if (original == null || original.isBlank()) {
+	            throw new ApiException(HttpStatus.BAD_REQUEST, "Invalid image name");
+	        }
+
+	        // extension
+	        String ext = "";
+	        int dot = original.lastIndexOf('.');
+	        if (dot >= 0) ext = original.substring(dot).toLowerCase();
+
+	        // ✅ allow only image types (recommended)
+	        if (!ext.equals(".png") && !ext.equals(".jpg") && !ext.equals(".jpeg") && !ext.equals(".webp")) {
+	            throw new ApiException(HttpStatus.BAD_REQUEST, "Only png/jpg/jpeg/webp allowed");
+	        }
+
+	        String fileName = UUID.randomUUID().toString() + ext;
+
+	        Path target = uploadDir.resolve(fileName);
+	        Files.copy(file.getInputStream(), target, StandardCopyOption.REPLACE_EXISTING);
+
+	        return fileName;
+
+	    } catch (ApiException ex) {
+	        throw ex;
+	    } catch (Exception e) {
+	        throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, "Upload image failed: " + e.getMessage());
+	    }
+	}
+
+
 	   
 	@Override
 	public Map<Long, Product> getAllPrroductsByIdMap(List<Long> idProducts) {
@@ -281,7 +320,18 @@ public class ProductServiceImp implements ProductService {
 	        ProductByNameDto dto = new ProductByNameDto();
 	        dto.setIdProduct(p.getId());
 	        dto.setName(p.getName());
-	        dto.setAvailableUnit(p.getAvailableUnit());
+	        
+	        
+	      
+	        
+	        Integer availableUnit = p.getAvailableUnit();
+	        
+	        if(availableUnit ==null) {
+	        	dto.setAvailableUnit(0);
+	        }else {
+	        	 dto.setAvailableUnit(p.getAvailableUnit());
+	        }
+	       
 	        dto.setSalePrice(p.getSalePrice());
 	        dto.setImagePath(p.getImagePath());
 	        return dto;
