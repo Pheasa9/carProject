@@ -1,10 +1,11 @@
-
+server:
+  port: ${PORT:8080}
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/carproject
-    username: car
-    password: Sa123
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -19,12 +20,11 @@ spring:
     change-log: classpath:db/changelog/db.changelog-master.yaml
     enabled: false
 
-  # ✅ Mail config for sending verification codes
   mail:
     host: smtp.gmail.com
     port: 587
-    username: mengricky200@gmail.com       # ← your Gmail
-    password: pfts xmeq wyae npwx        # ← App Password (not regular password)
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
     properties:
       mail:
         smtp:
@@ -34,6 +34,6 @@ spring:
 
 telegram:
   bot:
-    token: "8545203039:AAFRJD8BNuXb9hjxe3ALh89qq0C5ZWCcot0"
+    token: ${TELEGRAM_BOT_TOKEN}
   chat:
-    id: "1551363178"
+    id: ${TELEGRAM_CHAT_ID}
